@@ -31,8 +31,6 @@ public:
     NullBuf() : std::basic_streambuf<char>() {};
 };
 
-
-
 gea::ShadowEventHandler::ShadowEventHandler(EventHandler *master) :
     SubEventHandler(master),
     nullOut(new NullBuf())
@@ -319,9 +317,10 @@ void gea::ShadowEventHandler::waitFor( gea::Handle *h,
     h->status = gea::Handle::Blocked;
 
     EventDescr ed( h, data, e);
-
+    
     assert(e);
     eventList.insert(EventList::value_type(timeout, ed) );
+    
 }
 
 

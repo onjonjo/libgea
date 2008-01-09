@@ -160,7 +160,7 @@ public:
 
 /** \def REP_MAP_OBJ(type, name)
  *  \ingroup  ObjRepository
- *  \brief insert object into object repository
+ *  \brief get object from object repository
  *
  *  \param type The type of the variable. Should be a pointer type.
  *  \param name The name of the object in the repository.
