@@ -6,6 +6,8 @@
 *~
 *.lo
 *.la
+*.so
+*.so.*
 Makefile
 Makefile.in
 .deps
@@ -27,3 +29,6 @@ ltmain.sh
 missing
 src/utils/gea_start
 aclocal.m4
+*CMakeFiles
+*.cmake
+*CMakeCache.txt
