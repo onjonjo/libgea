@@ -37,10 +37,6 @@ ADD_SUBDIRECTORY(include/gea)
 ADD_SUBDIRECTORY(src/utils)
 
 
-ADD_SUBDIRECTORY(include/gea)
-
-
-
 
 # Local variables:
 # mode:cmake
