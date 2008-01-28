@@ -1,4 +1,5 @@
 %define name libgea
+%define MAJOR_VERSION MAJOR_VERSION_NUMBER
 %define version MAJOR_VERSION_NUMBER.MINOR_VERSION_NUMBER
 
 Name: %{name}
@@ -44,7 +45,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%{_exec_prefix}/lib/libgea%{MAJOR_VERSION}*
-%{_exec_prefix}/lib/pkgconfig/gea.pc
+%{_exec_prefix}/lib/libgea%{MAJOR_VERSION}*.so.*
 %{_prefix}/bin/gea_start
+
+
+%package devel
+Summary:        GEA development files
+Group:          Development/Library
+Requires:       libgea
+
+%description devel
+Development files for libgea
+
+
+%files devel 
+%defattr(-,root,root)
+%{_exec_prefix}/lib/libgea%{MAJOR_VERSION}*.so
+%{_exec_prefix}/lib/libgea%{MAJOR_VERSION}*.la
+%{_exec_prefix}/lib/libgea%{MAJOR_VERSION}*.a
+%{_exec_prefix}/lib/pkgconfig/gea.pc
 %{_prefix}/include/gea
+
+
+
