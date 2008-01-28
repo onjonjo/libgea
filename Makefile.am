@@ -1,9 +1,8 @@
 
-
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gea.pc
 
-SUBDIRS = src include 
+SUBDIRS = src include test
 
 
 # we distribute the stuff for building Debian packages with the source. 
