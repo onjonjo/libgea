@@ -8,15 +8,17 @@
 
 
 
+#define PORT 4407
+
+
 using namespace std;
-
-static const gea::AbsTime t0(gea::AbsTime::now());
-
-static const int PORT = 4407;
-
 
 class HidSt {
 public:
+    
+    gea::AbsTime t0;
+
+
     /* ::Node *node; */
     gea::Blocker blocker;
     gea::UdpHandle *udp;
@@ -24,13 +26,13 @@ public:
     int msgnr;
     double freq;
 
-    HidSt(int argc , const char*const* argv);
+    HidSt(double freq);
     static void broadcast_event(gea::Handle *h, gea::AbsTime t, void *data);
     static void write_ready_event(gea::Handle *h, gea::AbsTime t, void *data);
 };
 
-HidSt::HidSt(int argc , const char*const* argv) :
-	msgnr(1), freq(atof(argv[1]))
+HidSt::HidSt(double freq) :
+	msgnr(1), freq(freq)
 {
     this->udp = new gea::UdpHandle( gea::UdpHandle::Write,
 				    gea::UdpAddress( gea::UdpAddress::IPADDR_BROADCAST,
@@ -40,6 +42,8 @@ HidSt::HidSt(int argc , const char*const* argv) :
 		gea::AbsTime::now() + 0.01,
 		HidSt::broadcast_event,
 		this);
+    
+    t0 = gea::AbsTime::now();
 }
 
 
@@ -77,9 +81,15 @@ void HidSt::write_ready_event(gea::Handle *h, gea::AbsTime t, void *data) {
 
 }
 
+extern "C"
 int gea_main(int argc, const char * const *argv) {
-
-    new HidSt(argc,argv);
+    
+    double freq = 0.1;
+    
+    if (argc > 1) 
+	freq = atof(argv[1]);
+    
+    new HidSt(freq);
 
     return 0;
 }
