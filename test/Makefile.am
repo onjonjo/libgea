@@ -1,53 +1,45 @@
 CPPFLAGS += -I../include
 
-GEAS = periodic.gea \
-	blink.gea \
-	unixfd.gea \
-	dependency.gea \
-	broadcast.gea \
-	HidSt.gea \
-	HidStRecv.gea \
-	HidSt2.gea \
-	objrepos2.gea \
-	objrepos.gea
+
+GEA_STUB = gea_stub.cc
+
+AM_LDFLAGS = -all-static
+GEA_LIBS = ../src/libgea2.la ../src/libgea2-posix.la
+
+check_PROGRAMS = periodic blink unixfd broadcast HidSt2 objrepos objrepos2 \
+	dependency HidSt HidSt2 
+
+time2array_SOURCES = time2array.cc $(GEA_STUB)
+
+periodic_SOURCES = periodic.cc $(GEA_STUB)
+periodic_LDADD  = $(GEA_LIBS)
 
 
+blink_SOURCES = blink.cc $(GEA_STUB)
+blink_LDADD  = $(GEA_LIBS)
 
-#check_PROGRAMS = periodic blink unixfd broadcast
+dependency_SOURCES = dependency.cc $(GEA_STUB)
+dependency_LDADD  = $(GEA_LIBS)
 
+unixfd_SOURCES = unixfd.cc $(GEA_STUB)
+unixfd_LDADD  = $(GEA_LIBS)
 
+broadcast_SOURCES = broadcast.cc $(GEA_STUB)
+broadcast_LDADD  = $(GEA_LIBS)
 
-AM_LDFLAGS = -module -export-dynamic -avoid-version 
+HidSt_SOURCES = HidSt.cc $(GEA_STUB)
+HidSt_LDADD  = $(GEA_LIBS)
 
-foodir=/tmp/
-foo_LTLIBRARIES = $(GEAS:.gea=.la) time2array.la
+HidStRecv_SOURCES = HidStRecv.cc $(GEA_STUB)
+HidStRecv_LDADD  = $(GEA_LIBS)
 
-time2array_la_SOURCES = time2array.cc
+HidSt2_SOURCES = HidSt2.cc $(GEA_STUB)
+HidSt2_LDADD  = $(GEA_LIBS)
 
+objrepos_SOURCES = objrepos.cc $(GEA_STUB)
+objrepos_LDADD  = $(GEA_LIBS)
 
-periodic_la_SOURCES = periodic.cc
-
-blink_la_SOURCES = blink.cc 
-
-dependency_la_SOURCES = dependency.cc
-
-unixfd_la_SOURCES = unixfd.cc
-
-broadcast_la_SOURCES = broadcast.cc
-
-
-HidSt_la_SOURCES = HidSt.cc
-
-HidStRecv_la_SOURCES = HidStRecv.cc
-
-HidSt2_la_SOURCES = HidSt2.cc
-
-# Testing_la_SOURCES = Testing.cc
-
-# test_la_SOURCES = test.cc
-
-objrepos_la_SOURCES = objrepos.cc
-
-objrepos2_la_SOURCES = objrepos2.cc
+objrepos2_SOURCES = objrepos2.cc $(GEA_STUB)
+objrepos2_LDADD  = $(GEA_LIBS)
 
 

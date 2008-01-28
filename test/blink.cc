@@ -10,12 +10,13 @@
 
 using namespace std;
 
-static const gea::AbsTime t0(gea::AbsTime::now());
 
 static const int PORT = 4407;
 
 class Blink {
 public:
+    gea::AbsTime t0;
+
     /* ::Node *node; */
     gea::Blocker blocker;
     gea::UdpHandle *udp;
@@ -23,15 +24,15 @@ public:
 
     int nr;
 
-    Blink(int argc , const char*const* argv);
+    Blink();
     static void blink_event(gea::Handle *h, gea::AbsTime t, void *data);
     static void write_ready_event(gea::Handle *h, gea::AbsTime t, void *data);
     static void recv_event(gea::Handle *h, gea::AbsTime t, void *data);
 };
 
 
-
-Blink::Blink(int argc , const char*const* argv) :
+Blink::Blink() :
+    t0(gea::AbsTime::now()),
     nr(10)
 {
 
@@ -77,7 +78,7 @@ void Blink::blink_event(gea::Handle *h, gea::AbsTime t, void *data) {
 		 data);
 
 
-    GEA.dbg() << "blink " << self->nr-- << " at " << ( t - t0 ) << endl;
+    GEA.dbg() << "blink " << self->nr-- << " at " << ( t - self->t0 ) << endl;
 
 }
 
@@ -122,7 +123,7 @@ void Blink::recv_event(gea::Handle *h, gea::AbsTime t, void *data) {
 extern "C"
 int gea_main(int argc, const char * const *argv) {
 
-    new Blink(argc,argv);
+    new Blink();
 
     return 0;
 }

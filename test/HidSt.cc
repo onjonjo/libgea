@@ -6,10 +6,7 @@
 #include <gea/Blocker.h>
 #include <gea/UdpHandle.h>
 
-
-
 #define PORT 4407
-
 
 using namespace std;
 
@@ -18,8 +15,6 @@ public:
     
     gea::AbsTime t0;
 
-
-    /* ::Node *node; */
     gea::Blocker blocker;
     gea::UdpHandle *udp;
 
@@ -73,8 +68,6 @@ void HidSt::write_ready_event(gea::Handle *h, gea::AbsTime t, void *data) {
     char buf[1024];
 
     *((int *)buf) = self->msgnr;
-
-    //snprintf(buf+4, sizeof(buf-4), "%d", self->msgnr);
 
     if ( self->udp->write(buf,1000) == -1)
 	GEA.dbg() << "cannot send" << endl;;

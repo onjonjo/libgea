@@ -6,11 +6,7 @@
 #include <gea/Blocker.h>
 #include <gea/UdpHandle.h>
 
-
-
 using namespace std;
-
-static const gea::AbsTime t0(gea::AbsTime::now());
 
 static const int PORT = 4407;
 
