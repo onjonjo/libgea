@@ -17,9 +17,6 @@ EXTRA_DIST = \
 	debian/libgea2-dev.install \
 	debian/libgea2.dirs \
 	debian/libgea2.install \
-	debian/libgea2.postinst.debhelper \
-	debian/libgea2.postrm.debhelper \
-	debian/libgea2.substvars \
 	debian/README debian/rules \
 	libgea.spec libgea.spec.in
 
