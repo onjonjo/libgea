@@ -1,4 +1,4 @@
-%define name gea
+%define name libgea
 %define version MAJOR_VERSION_NUMBER.MINOR_VERSION_NUMBER
 
 Name: %{name}
@@ -30,7 +30,7 @@ License: GPL
 %setup -q -n %{name}-%{version}
 
 %build
-./prepare.pl
+#./prepare.pl
 ./configure --prefix=%{_prefix} --exec_prefix=%{_exec_prefix} --infodir=%{_infodir}
 make
 
