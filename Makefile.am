@@ -18,9 +18,9 @@ EXTRA_DIST = \
 	debian/libgea2.dirs \
 	debian/libgea2.install \
 	debian/README debian/rules \
-	libgea.spec libgea.spec.in
+	libgea2.spec libgea2.spec.in
 
-libgea.spec: version.m4 libgea.spec.in
+libgea2.spec: version.m4 libgea2.spec.in
 	m4 $^ > $@
 
 

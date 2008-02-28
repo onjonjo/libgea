@@ -1,4 +1,4 @@
-%define name libgea
+%define name libgea2
 %define MAJOR_VERSION MAJOR_VERSION_NUMBER
 %define version MAJOR_VERSION_NUMBER.MINOR_VERSION_NUMBER
 
