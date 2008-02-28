@@ -52,11 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 %package devel
 Summary:        GEA development files
 Group:          Development/Library
-Requires:       libgea
+Requires:       libgea2
 
 %description devel
 Development files for libgea
-
 
 %files devel 
 %defattr(-,root,root)
