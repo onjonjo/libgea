@@ -11,6 +11,14 @@ namespace gea {
 
     class Duration;
 
+
+    /* some forward declarations to make the friend-statements below happier */
+    static Duration operator -(const AbsTime& a, const AbsTime& b);
+    static AbsTime  operator +(const AbsTime& a, const Duration b);
+    static AbsTime& operator +=(AbsTime& a, const Duration b);
+    static AbsTime& operator -=(AbsTime& a, const Duration b);
+    static AbsTime  operator -(const AbsTime& a, const Duration b);
+
     /** \brief Base type for fix-point number representation
      */
     class FixNum {
@@ -18,14 +26,20 @@ namespace gea {
     public:
 	/** \brief type used for storing the fix-point number */
 	typedef long long StoreType;
-	StoreType v; ///< the variable the value is stored in
-	static const StoreType offset = 0x10000000LL;
 
 	/** \brief the size in bytes when stored in a memory location
 	 *  \see FixNum::toArray()
 	 *  \see FixNum::fromArray()
 	 */
 	static const unsigned size = sizeof(StoreType);
+
+    protected:
+
+	/** \brief the variable the value is stored in
+	 *
+	 *  It is stored in nanoseconds.
+	 */
+	StoreType value;
 
 	/** \brief defaul contructor
 	 *
@@ -34,23 +48,46 @@ namespace gea {
 	 */
 	FixNum() {}
 
-	/** \brief initialise value from storage type.
-	 */
-	explicit FixNum(StoreType v) : v(v) {}
 
-
+    public:
 	/** \brief copy constructor
 	 *
 	 *  This implements the default semantics of a copy constructor.
 	 */
-	FixNum(const FixNum& fn) { this->v = fn.v; }
+	FixNum(const FixNum& fn) { this->value = fn.value; }
 
 	/** \brief assignment operator with standard semantics
 	 */
-	FixNum& operator =(const FixNum& other) {this->v = other.v; return *this; }
+	FixNum& operator =(const FixNum& other) {this->value = other.value; return *this; }
+
+	/** \brief set time value in nanoseconds
+	 *
+	 *  \param nsec the time value in nano seconds
+	 */
+	void setNanoSecs(long long nsec) {
+	    value = nsec;
+	}
+
+	/** \brief set time in seconds */
+	void setSeconds(double secs) {
+	    value = static_cast<StoreType>(secs * 1.e9);
+	}
+
+	/** \brief get time in nanoseconds as a long long int */
+	long long  getNanoSecsLL() const {
+	    return value;
+	}
+
+	double getNanoSecsD() const {
+	    return static_cast<double>(value);
+	}
+
+	double getSecondsD() const {
+	    return getNanoSecsD() * 1.e-9;
+	}
 
 	/** \brief macro for defining comparison operators */
-#define bool_op(x) bool operator x (const FixNum& f) const {return this->v x f.v;}
+#define bool_op(x) bool operator x (const FixNum& f) const {return this->value x f.value;}
 
 	bool_op(==);
 	bool_op(<);
@@ -66,7 +103,7 @@ namespace gea {
 	 *  \see FixNum::fromArray(const void *)
 	 */
 	void toArray(void *p) const {
-	    unsigned long long temp = this->v;
+	    unsigned long long temp = this->value;
 	    unsigned char *buf = (unsigned char *)p;
 	    buf += size;
 	    for (unsigned i = 0; i != size; ++i) {
@@ -83,12 +120,18 @@ namespace gea {
 	 */
 	void fromArray(const void *p) {
 	    unsigned char *buf = (unsigned char *)p;
-	    v = 0;
+	    value = 0;
 	    for (unsigned i = 0; i != size; ++i) {
-		v <<= 8;
-		v |= buf[i];
+		value <<= 8;
+		value |= buf[i];
 	    }
 	}
+
+	friend Duration operator -(const AbsTime& a, const AbsTime& b);
+	friend AbsTime  operator +(const AbsTime& a, const Duration b);
+	friend AbsTime  operator -(const AbsTime& a, const Duration b);
+	friend AbsTime& operator +=(AbsTime& a, const Duration b);
+	friend AbsTime& operator -=(AbsTime& a, const Duration b);
 
     };
 
@@ -107,7 +150,8 @@ namespace gea {
 	 *        different runs of your program.
 	 */
 	static inline AbsTime t0() {
-	    AbsTime retval(0);
+	    AbsTime retval;
+	    retval.setNanoSecs(0);
 	    return retval;
 	}
 
@@ -125,10 +169,8 @@ namespace gea {
 
     public:
 
+	/** \brief default constructor that does nothing */
 	AbsTime() : FixNum() {}
-
-	AbsTime(StoreType v) :
-	    FixNum(v) {}
 
 	/** \brief copy constructor
 	 */
@@ -145,51 +187,52 @@ namespace gea {
      *  \ingroup GEA_API
      *
      *  The duration class is used to represent time spans. It defines operators
-     *  to use it in a convinient way with the class gea::AbsTime. 
+     *  to use it in a convinient way with the class gea::AbsTime.
      */
     class Duration : public FixNum {
 
     public:
 
 	/** \brief default constructor
-	 *  
-	 *  The default value of the object is undefined. This way we can detect 
+	 *
+	 *  The default value of the object is undefined. This way we can detect
 	 *  uninitialised values with tools like valgrind.
 	 */
 	Duration() :
 	    FixNum()
 	{}
 
-
 	/** \brief copy constructor */
 	Duration(const Duration& d) :
-	    FixNum(d.v) {}
+	    FixNum(d) {}
 
 	/** \brief initialise from double
 	 *
 	 *  The duration will have the value of \a t seconds.
 	 */
-	Duration(double t) :
-	    FixNum( static_cast<StoreType>( t * this->offset + .5 ) )
-	{}
-
+	Duration(double t)
+	{
+	    value = 1.e9 * t;
+	}
 
 	/** \brief Initialise from a rational number
 	 *
 	 *  The duration will have the value of a/b seconds.
 	 *  \code
-	 *  Duration one_third(1,4);
+	 *  Duration one_fourth(1,4);
 	 *  \endcode
-	 *  will create a duration of 0.25 second. This avoids the use of floating point operations.
+	 *  will create a duration of 0.25 (1/4) second. This avoids the use of floating point operations.
 	 */
-	Duration(long a, long b) :
-	    FixNum( static_cast<StoreType>(a) * this->offset /  static_cast<StoreType>(b) )
-	{}
+	Duration(long a, long b)
+	{
+	    setNanoSecs((long long)a * 1000000000LL);
+	    value /= (StoreType)b;
+	}
 
 	/** \brief convert the Duration to a double type
 	 */
 	operator double() const{
-	    return double(this->v) / double(this->offset);
+	    return double(this->value) / 1.e9;
 	}
 
     }; // end class Duration
@@ -199,31 +242,16 @@ namespace gea {
      *  \ingroup GEA_API
      */
     static inline Duration operator -(const AbsTime& a, const AbsTime& b) {
-	Duration ret(0);
-	ret.v = a.v - b.v;
+	Duration ret;
+	ret.value = a.value - b.value;
 	return ret;
     }
 
     /** \brief add a duration to an absolute time.
      *  \ingroup GEA_API
      */
-    static inline AbsTime operator +(const AbsTime& a, const Duration b) {
-	return AbsTime(a.v + b.v);
-    }
-
-    /** \brief substract a duration from an absolute time.
-     *  \ingroup GEA_API
-     *
-     */
-    static inline AbsTime operator -(const AbsTime& a, const Duration b) {
-	return AbsTime(a.v - b.v);
-    }
-
-    /** \brief add a duration to an absolute time.
-     *  \ingroup GEA_API
-     */
     static inline AbsTime& operator +=(AbsTime& a, const Duration b) {
-	a.v += b.v;
+	a.value += b.value;
 	return a;
     }
 
@@ -232,10 +260,30 @@ namespace gea {
      *
      */
     static inline AbsTime& operator -=(AbsTime& a, const Duration b) {
-	a.v -= b.v;
+	a.value -= b.value;
 	return a;
     }
-}
+
+    /** \brief add a duration to an absolute time.
+     *  \ingroup GEA_API
+     */
+    static inline AbsTime operator +(const AbsTime& a, const Duration b) {
+	AbsTime ret = a;
+	ret.value += b.value;
+	return ret;
+    }
+
+    /** \brief substract a duration from an absolute time.
+     *  \ingroup GEA_API
+     *
+     */
+    static inline AbsTime operator -(const AbsTime& a, const Duration b) {
+	AbsTime ret = a;
+	ret.value -= b.value;
+	return ret;
+    }
+
+} // end of namespace gea
 
 
 #endif //_GEATIME_H__
