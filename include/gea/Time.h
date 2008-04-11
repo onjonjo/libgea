@@ -5,6 +5,10 @@
 
 #include <gea/ApiIface.h>
 
+// we define the following to indicate that a gea timeval can be initialised from a
+// double via setSeconds(double).
+#define GEA_SET_TIME_FROM_DOUBLE 1
+
 namespace gea {
 
     class AbsTime;
