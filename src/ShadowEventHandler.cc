@@ -274,12 +274,11 @@ DLLEXPORT void gea::ShadowEventHandler::run() {
 
 	    evIter->second.h->status = Handle::Timeout;
 
-	    // store event time for later use, but only increase value
-	    if (evIter->first > this->masterEventHandler->lastEventTime)
-		    this->masterEventHandler->lastEventTime = evIter->first;
+	    // store event time for later use
+	    this->masterEventHandler->lastEventTime = evIter->first;
 
 	    evIter->second.e(evIter->second.h,
-			     this->masterEventHandler->lastEventTime,
+			     evIter->first,
 			     evIter->second.data);
 
 	    eventList.erase(evIter);
@@ -316,6 +315,13 @@ void gea::ShadowEventHandler::waitFor( gea::Handle *h,
 				       gea::AbsTime timeout,
 				       gea::EventHandler::Event e, void *data)
 {
+
+    if (timeout < this->masterEventHandler->lastEventTime) {
+	fprintf(stderr, "Cannot schedule events in the past!\n"
+		"  The application has to ensure that no timeouts < GEA.lastEventTime\n"
+		"  are passed to GEA.waitFor() -- aborting!\n");
+	abort();
+    }
 
     h->status = gea::Handle::Blocked;
 
