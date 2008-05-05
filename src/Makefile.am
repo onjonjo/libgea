@@ -1,6 +1,6 @@
 CPPFLAGS += "-I../include"
 
-lib_LTLIBRARIES = libgea2-posix.la libgea2.la
+lib_LTLIBRARIES =  libgea2.la libgea2-posix.la
 
 libgea2_la_SOURCES = \
 	EventHandler.cc \

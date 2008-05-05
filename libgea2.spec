@@ -1,6 +1,6 @@
 %define name libgea2
 %define MAJOR_VERSION 2
-%define version 2.3
+%define version 2.4
 
 Name: %{name}
 Version: %{version}
@@ -52,11 +52,10 @@ rm -rf $RPM_BUILD_ROOT
 %package devel
 Summary:        GEA development files
 Group:          Development/Library
-Requires:       libgea
+Requires:       libgea2
 
 %description devel
 Development files for libgea
-
 
 %files devel 
 %defattr(-,root,root)

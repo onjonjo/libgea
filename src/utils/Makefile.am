@@ -13,4 +13,4 @@ libgea2_utils_la_SOURCES = \
 	MultiShootTimerEvent.cc
 
 libgea2_utils_la_LDFLAGS= -version-info @MAJOR_VER@:@MINOR_VER@:0
-
+libgea2_utils_la_LIBADD=../libgea2.la

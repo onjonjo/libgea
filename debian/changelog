@@ -1,3 +1,9 @@
+libgea2 (2.4) unstable; urgency=low
+
+  * abort hard, if the applications tries to schedule an event in the past.
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Fri, 11 Apr 2008 13:58:25 +0200
+
 libgea2 (2.3) unstable; urgency=low
 
   * Slightly changed the API of UnixFdHandle
