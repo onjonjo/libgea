@@ -1,3 +1,9 @@
+libgea2 (2.5) unstable; urgency=low
+
+  * fix install order of libraries
+
+ -- Andre Herms <aherms@ivs.cs.uni-magdeburg.de>  Mon, 05 May 2008 11:22:59 +0200
+
 libgea2 (2.4) unstable; urgency=low
 
   * abort hard, if the applications tries to schedule an event in the past.
