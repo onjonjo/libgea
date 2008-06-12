@@ -13,14 +13,14 @@ EXTRA_DIST = \
 	debian/copyright \
 	debian/dirs \
 	debian/docs \
-	debian/libgea2-dev.dirs \
-	debian/libgea2-dev.install \
-	debian/libgea2.dirs \
-	debian/libgea2.install \
+	debian/libgea3-dev.dirs \
+	debian/libgea3-dev.install \
+	debian/libgea3.dirs \
+	debian/libgea3.install \
 	debian/README debian/rules \
-	libgea2.spec libgea2.spec.in
+	libgea3.spec libgea3.spec.in
 
-libgea2.spec: version.m4 libgea2.spec.in
+libgea3.spec: version.m4 libgea3.spec.in
 	m4 $^ > $@
 
 

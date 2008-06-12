@@ -1,8 +1,8 @@
 CPPFLAGS += "-I../include"
 
-lib_LTLIBRARIES =  libgea2.la libgea2-posix.la
+lib_LTLIBRARIES =  libgea3.la libgea3-posix.la
 
-libgea2_la_SOURCES = \
+libgea3_la_SOURCES = \
 	EventHandler.cc \
 	gea.cc \
 	Blocker.cc \
@@ -11,9 +11,9 @@ libgea2_la_SOURCES = \
 	DependHandle.cc \
 	ObjRepository.cc
 
-#libgea_la_CXXFLAGS = -fvisibility=hidden 
+#libgea_la_CXXFLAGS = -fvisibility=hidden
 
-libgea2_posix_la_SOURCES = \
+libgea3_posix_la_SOURCES = \
 	Time.cc \
 	UnixFdHandle.cc \
 	ShadowBlocker.cc \
@@ -26,11 +26,11 @@ libgea2_posix_la_SOURCES = \
 	compat.cc \
 	AnimLink.cc
 
-libgea2_posix_la_CPPFLAGS = -DGEA_POSIX 
+libgea3_posix_la_CPPFLAGS = -DGEA_POSIX
 
-libgea2_posix_la_LDFLAGS = @NETWORK_LIBS@ -version-info @MAJOR_VER@:@MINOR_VER@:0
-libgea2_posix_la_LIBADD = libgea2.la
+libgea3_posix_la_LDFLAGS = @NETWORK_LIBS@ -version-info @MAJOR_VER@:@MINOR_VER@:0
+libgea3_posix_la_LIBADD = libgea3.la
 
-libgea2_la_LDFLAGS = -version-info @MAJOR_VER@:@MINOR_VER@:0
+libgea3_la_LDFLAGS = -version-info @MAJOR_VER@:@MINOR_VER@:0
 
 SUBDIRS = . utils

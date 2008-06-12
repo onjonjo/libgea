@@ -4,7 +4,7 @@ CPPFLAGS += -I../include
 GEA_STUB = gea_stub.cc
 
 AM_LDFLAGS = -all-static
-GEA_LIBS = ../src/libgea2.la ../src/libgea2-posix.la
+GEA_LIBS = ../src/libgea3.la ../src/libgea3-posix.la
 
 check_PROGRAMS = periodic blink unixfd broadcast HidSt2 objrepos objrepos2 \
 	dependency HidSt HidSt2 

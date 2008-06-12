@@ -1,13 +1,14 @@
-Source: libgea2
+Source: libgea3
 Priority: optional
 Maintainer: Andre Herms <aherms@ivs.cs.uni-magdeburg.de>
 Build-Depends: debhelper (>= 4.0.0), autoconf (>= 2.3), automake1.9|automaken, libtool (>= 1.5), c++-compiler
 Standards-Version: 3.7.2
 
-Package: libgea2-dev
+Package: libgea3-dev
 Section: libdevel
 Architecture: any
-Depends: libgea2 (= ${binary:Version})
+Conflicts: libgea2-dev
+Depends: libgea3 (= ${binary:Version})
 Description: GEA - an abstraction layer for developing network protocols
  The GEA libray provides an abstraction layer for network protocols.
  Functions , e.g. like sending packets, are provided and mapped to the
@@ -20,7 +21,7 @@ Description: GEA - an abstraction layer for developing network protocols
  networks.
 
 
-Package: libgea2
+Package: libgea3
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}
