@@ -39,6 +39,9 @@ namespace gea {
 	virtual ~EventHandler();
 
 	/** \brief register a new event handler
+	 *
+	 * \note Ensure that (timeout >= #GEA.#lastEventTime), otherwise gea
+	 * will abort execution.
 	 */
 	virtual void waitFor(Handle *h, gea::AbsTime timeout, Event e, void *data);
 

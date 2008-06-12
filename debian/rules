@@ -60,7 +60,19 @@ clean:
 	rm -f build-stamp 
 	rm -f depcomp missing configure Makefile Makefile.in */Makefile */Makefile.in config.cache config.status
 	rm -rf config.sub config.guess */.deps */.libs config.log libltdl/config.log libltdl/config.status
-	rm -rf */*.la */*.lo
+	rm -rf */*.la */*.lo */*.o *.tar.gz doc/html
+	rm -rf */*/.deps */*/.libs */*/*.lo */*/*.la */*/*.o
+	rm -f test/periodic
+	rm -f test/blink
+	rm -f test/unixfd
+	rm -f test/broadcast
+	rm -f test/HidSt2
+	rm -f test/objrepos
+	rm -f test/objrepos2
+	rm -f test/dependency
+	rm -f test/HidSt
+	rm -f test/HidSt2
+	rm -f src/utils/gea_start
 	# Add here commands to clean up after the build process.
 	-[ -r Makefile ] && $(MAKE) distclean || true
 ifneq "$(wildcard /usr/share/misc/config.sub)" ""
