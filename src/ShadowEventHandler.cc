@@ -1,4 +1,3 @@
-
 #ifdef HAVE_SYS_SELECT_H
 /* According to POSIX 1003.1-2001 */
 #include <sys/select.h>
@@ -44,10 +43,12 @@ gea::ShadowEventHandler::~ShadowEventHandler() {
 
 }
 
-static void double2Timeval(double t, struct timeval *tv) {
-    tv->tv_sec = static_cast<int>( floor(t) );
-    tv->tv_usec = static_cast<int>( (t - floor(t)) * 1000000.);
+static void duration2Timeval(const gea::Duration& dur, struct timeval *tv) {
+    long long nanos = dur.getNanoSecsLL();
+    tv->tv_sec = nanos / 1000000000LL;
+    tv->tv_usec = nanos / 1000LL;
 }
+
 
 /** function for filling the sets used by select */
 static void fill_fd_sets(gea::ShadowEventHandler::EventList::const_iterator from,
@@ -243,7 +244,7 @@ DLLEXPORT void gea::ShadowEventHandler::run() {
 	    sleepTime = gea::Duration(0);
 
 	struct timeval tv;
-	double2Timeval(static_cast<double>(sleepTime), &tv);
+	duration2Timeval(sleepTime, &tv);
 
 	// collect all unix io events
 
@@ -326,10 +327,10 @@ void gea::ShadowEventHandler::waitFor( gea::Handle *h,
     h->status = gea::Handle::Blocked;
 
     EventDescr ed( h, data, e);
-    
+
     assert(e);
     eventList.insert(EventList::value_type(timeout, ed) );
-    
+
 }
 
 

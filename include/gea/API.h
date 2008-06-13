@@ -58,4 +58,16 @@ namespace gea {
   gea::EventHandler& geaAPI();
 
 }
+
+
+/** \brief output operator for gea::Duration */
+static inline std::ostream& operator <<(std::ostream& os, const gea::Duration& d) {
+  return os << d.getSecondsD();
+}
+
+/** \brief output operator for gea::AbsTime */
+static inline std::ostream& operator <<(std::ostream& os, const gea::AbsTime& t) {
+  return os << (t - gea::AbsTime::t0());
+}
+
 #endif // __GEA_API_H_

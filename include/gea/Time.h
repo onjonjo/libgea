@@ -15,7 +15,6 @@ namespace gea {
 
     class Duration;
 
-
     /* some forward declarations to make the friend-statements below happier */
     static Duration operator -(const AbsTime& a, const AbsTime& b);
     static AbsTime  operator +(const AbsTime& a, const Duration b);
@@ -216,7 +215,7 @@ namespace gea {
 	 *
 	 *  The duration will have the value of \a t seconds.
 	 */
-	Duration(double t)
+	explicit Duration(double t)
 	{
 	    value = 1.e9 * t;
 	}
@@ -229,16 +228,10 @@ namespace gea {
 	 *  \endcode
 	 *  will create a duration of 0.25 (1/4) second. This avoids the use of floating point operations.
 	 */
-	Duration(long a, long b)
+	explicit Duration(long a, long b)
 	{
 	    setNanoSecs((long long)a * 1000000000LL);
 	    value /= (StoreType)b;
-	}
-
-	/** \brief convert the Duration to a double type
-	 */
-	operator double() const{
-	    return double(this->value) / 1.e9;
 	}
 
 	/** \brief multiply duration with integer */
