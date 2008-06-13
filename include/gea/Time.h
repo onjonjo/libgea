@@ -82,10 +82,12 @@ namespace gea {
 	    return value;
 	}
 
+	/** \brief get time value in nanoseconds as a double */
 	double getNanoSecsD() const {
 	    return static_cast<double>(value);
 	}
 
+	/** \brief get time value in seconds as a double */
 	double getSecondsD() const {
 	    return getNanoSecsD() * 1.e-9;
 	}
@@ -238,6 +240,33 @@ namespace gea {
 	operator double() const{
 	    return double(this->value) / 1.e9;
 	}
+
+	/** \brief multiply duration with integer */
+	Duration& operator *=(long m) {
+	    this->value *= (StoreType)m;
+	    return *this;
+	}
+
+	/** \brief multiply duration with integer */
+	Duration operator *(long m) const {
+	    Duration ret = *this;
+	    ret *= m;
+	    return ret;
+	}
+
+	/** \brief multiply duration with double */
+	Duration& operator *=(double m) {
+	    this->value = static_cast<StoreType>( static_cast<double>(this->value) * m);
+	    return *this;
+	}
+
+	/** \brief multiply duration with double */
+	Duration operator *(double m) const {
+	    Duration ret = *this;
+	    ret *= m;
+	    return ret;
+	}
+
 
     }; // end class Duration
 
