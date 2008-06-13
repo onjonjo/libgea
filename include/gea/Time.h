@@ -254,20 +254,6 @@ namespace gea {
 	    return ret;
 	}
 
-	/** \brief multiply duration with double */
-	Duration& operator *=(double m) {
-	    this->value = static_cast<StoreType>( static_cast<double>(this->value) * m);
-	    return *this;
-	}
-
-	/** \brief multiply duration with double */
-	Duration operator *(double m) const {
-	    Duration ret = *this;
-	    ret *= m;
-	    return ret;
-	}
-
-
     }; // end class Duration
 
 
