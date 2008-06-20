@@ -217,7 +217,7 @@ namespace gea {
 	 */
 	explicit Duration(double t)
 	{
-	    value = 1.e9 * t;
+	    value = static_cast<StoreType>( 1.e9 * t );
 	}
 
 	/** \brief Initialise from a rational number
