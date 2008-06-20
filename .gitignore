@@ -28,6 +28,7 @@ install-sh
 ltmain.sh
 missing
 src/utils/gea_start
+src/utils/gea3_start
 aclocal.m4
 *CMakeFiles
 *.cmake
