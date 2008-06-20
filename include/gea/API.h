@@ -62,7 +62,7 @@ namespace gea {
 
 /** \brief output operator for gea::Duration */
 static inline std::ostream& operator <<(std::ostream& os, const gea::Duration& d) {
-  return os << d.getNanoSecsD();
+  return os << d.getSecondsD();
 }
 
 /** \brief output operator for gea::AbsTime */
