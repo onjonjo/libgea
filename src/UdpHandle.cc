@@ -27,7 +27,7 @@ DLLEXPORT const uint32_t UdpAddress::IPADDR_ANY = 0;
 DLLEXPORT const uint32_t UdpAddress::IPADDR_BROADCAST = 0xffffffffUL;
 
 
-DLLEXPORT UdpAddress::UdpAddress(u_int32_t ip, u_int16_t port)
+DLLEXPORT UdpAddress::UdpAddress(uint32_t ip, uint16_t port)
 {
     setIP(ip);
     setPort(port);

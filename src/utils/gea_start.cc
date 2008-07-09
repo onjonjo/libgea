@@ -4,6 +4,7 @@
 #include <gea/posix/PosixApiIface.h>
 
 #include <cstdlib>
+#include <cstring>
 
 #include <iostream>
 //#include <ltdl.h>

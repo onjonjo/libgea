@@ -22,7 +22,7 @@ namespace gea {
 	static const uint32_t IPADDR_BROADCAST;
 
 	/** create address from nummeric IP address and port number*/
-	UdpAddress(u_int32_t ip, u_int16_t port);
+	UdpAddress(uint32_t ip, uint16_t port);
 
 
 	/** copy contructor */

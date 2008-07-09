@@ -7,6 +7,7 @@
 
 
 #include <streambuf>
+#include <algorithm>
 
 #include <math.h>
 
