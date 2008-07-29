@@ -22,6 +22,12 @@ namespace gea {
     static AbsTime& operator -=(AbsTime& a, const Duration b);
     static AbsTime  operator -(const AbsTime& a, const Duration b);
 
+    static Duration& operator +=(Duration& a, const Duration& b);
+    static Duration& operator -=(Duration& a, const Duration& b);
+    static Duration  operator -(const Duration&  a, const Duration& b);
+    static Duration  operator +(const Duration&  a, const Duration& b);
+
+
     /** \brief Base type for fix-point number representation
      */
     class FixNum {
@@ -137,6 +143,11 @@ namespace gea {
 	friend AbsTime  operator -(const AbsTime& a, const Duration b);
 	friend AbsTime& operator +=(AbsTime& a, const Duration b);
 	friend AbsTime& operator -=(AbsTime& a, const Duration b);
+
+	friend Duration& operator +=(Duration& a, const Duration& b);
+	friend Duration& operator -=(Duration& a, const Duration& b);
+	friend Duration  operator -(const Duration&  a, const Duration& b);
+	friend Duration  operator +(const Duration&  a, const Duration& b);
 
     };
 
@@ -295,7 +306,45 @@ namespace gea {
 	return ret;
     }
 
-} // end of namespace gea
+    /** \brief add two durations
+     *  \ingroup GEA_API
+     *
+     */
+    static inline Duration& operator +=(Duration& a, const Duration& b) {
+	a.value += b.value;
+	return a;
+    }
+
+    /** \brief substract two durations
+     *  \ingroup GEA_API
+     *
+     */
+    static inline Duration& operator -=(Duration& a, const Duration& b) {
+	a.value -= b.value;
+	return a;
+    }
+
+    /** \brief add two durations
+     *  \ingroup GEA_API
+     *
+     */
+    static inline Duration operator +(const Duration&  a, const Duration& b) {
+	Duration ret;
+	ret.value = a.value + b.value;
+	return ret;
+    }
+
+    /** \brief substract two durations
+     *  \ingroup GEA_API
+     *
+     */
+    static inline Duration operator -(const Duration&  a, const Duration& b) {
+	Duration ret;
+	ret.value = a.value - b.value;
+	return ret;
+    }
+
+} // End of namespace gea
 
 
 #endif //_GEATIME_H__
