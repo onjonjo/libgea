@@ -230,19 +230,37 @@ struct resetDepTrigger {
 
 
 
-
+void gea::ShadowEventHandler::handleTimeout() {
+    // must be the first one..
+    EventList::iterator evIter = eventList.begin();
+    
+    evIter->second.h->status = Handle::Timeout;
+    
+    // store event time for later use
+    this->masterEventHandler->lastEventTime = evIter->first;
+    
+    evIter->second.e(evIter->second.h,
+		     evIter->first,
+		     evIter->second.data);
+    
+    eventList.erase(evIter);
+}
 
 DLLEXPORT void gea::ShadowEventHandler::run() {
 
 
     while (! eventList.empty() ) {
-/*
-	EventDescr ed = this->eventList.begin()->second;
-*/
-	gea::Duration sleepTime = this->eventList.begin()->first - gea::AbsTime::now();
 
-	if (sleepTime < gea::Duration(0))
-	    sleepTime = gea::Duration(0);
+	gea::AbsTime t_now = gea::AbsTime::now();
+
+	gea::Duration sleepTime = this->eventList.begin()->first - t_now;
+	while (sleepTime < gea::Duration(0,1)) {
+	    // process all late events.
+	    this->handleTimeout(); // this removes the first entry
+	    sleepTime = this->eventList.begin()->first - t_now;
+	}
+	
+	assert(sleepTime > gea::Duration(0,1));
 
 	struct timeval tv;
 	duration2Timeval(sleepTime, &tv);
@@ -271,20 +289,8 @@ DLLEXPORT void gea::ShadowEventHandler::run() {
 	    assert (sel_ret != -1);
 	}
 	if (sel_ret == 0) { // timeout
-	    // must be the first one..
-	    EventList::iterator evIter = eventList.begin();
 
-	    evIter->second.h->status = Handle::Timeout;
-
-	    // store event time for later use
-	    this->masterEventHandler->lastEventTime = evIter->first;
-
-	    evIter->second.e(evIter->second.h,
-			     evIter->first,
-			     evIter->second.data);
-
-	    eventList.erase(evIter);
-
+	    this->handleTimeout();
 
 	} else {
 	    /* handle all io events */

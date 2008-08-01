@@ -58,8 +58,11 @@ namespace gea {
 
 	virtual std::ostream& dbg(unsigned level = 0x0000FFFF) ;
 
+	
 	void run();
+    private:
 
+	void handleTimeout();
 
     };
 }
