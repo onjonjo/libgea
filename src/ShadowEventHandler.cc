@@ -254,7 +254,7 @@ DLLEXPORT void gea::ShadowEventHandler::run() {
 	gea::AbsTime t_now = gea::AbsTime::now();
 
 	gea::Duration sleepTime = this->eventList.begin()->first - t_now;
-	while (sleepTime < gea::Duration(0,1)) {
+	while (sleepTime <= gea::Duration(0,1)) {
 	    // process all late events.
 	    this->handleTimeout(); // this removes the first entry
 	    sleepTime = this->eventList.begin()->first - t_now;
